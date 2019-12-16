@@ -3,7 +3,7 @@ version: "3.1"
 services:
   node:
     build: docker/node
-    container_name: node
+    container_name: bnt_node
     volumes:
       - "./:/home/node/app:rw,consistent"
     working_dir: "/home/node/app"
@@ -16,7 +16,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
-    container_name: phpmyadmin
+    container_name: bnt_phpmyadmin
     ports:
       - "8001:80"
     depends_on:
@@ -28,6 +28,7 @@ services:
 
   mysql:
     image: mysql:5.7
+    container_name: bnt_mysql
     working_dir: /application
     volumes:
       - .:/application
@@ -35,18 +36,19 @@ services:
     networks:
       - proxy
     environment:
-      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${DB_DATABASE}
-      - MYSQL_USER=${DB_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
-    # ports:
-    #   - "1082:3306"
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=bookntalk
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    ports:
+      - "1082:3306"
 
-  # maildev:
-  #   image: djfarrelly/maildev
-  #   ports:
-  #     - "1025:25"
-  #     - "1080:80"
+  maildev:
+    image: djfarrelly/maildev
+    container_name: bnt_maildev
+    ports:
+      - "1025:25"
+      - "1080:80"
 networks:
   proxy:
     driver: bridge

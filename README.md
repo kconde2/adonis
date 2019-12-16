@@ -29,3 +29,8 @@ Run the following command to run startup migrations.
 ```js
 adonis migration:run
 ```
+
+### Commands
+```js
+docker-compose exec node adonis migration:run
+```
