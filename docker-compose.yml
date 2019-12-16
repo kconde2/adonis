@@ -7,10 +7,12 @@ services:
     volumes:
       - "./:/home/node/app:rw,consistent"
     working_dir: "/home/node/app"
+    ports:
+      - "3333:3333"
+    depends_on:
+      - mysql
     networks:
       - proxy
-    ports:
-      - "1337:1337"
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
@@ -33,10 +35,10 @@ services:
     networks:
       - proxy
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=bookntalk
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
     # ports:
     #   - "1082:3306"
 
